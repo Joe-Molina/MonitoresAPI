@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model auditoria {
+  id          Int      @id @default(autoincrement())
+  id_usuario  Int
+  created_at  DateTime @default(now())
+  accion      String
+  descripcion String
+  tipo        String?
+  usuarios    usuarios @relation(fields: [id_usuario], references: [id])
+
+  @@index([id_usuario], map: "auditoria_id_usuario_fkey")
+}
+
+model publicidad {
+  id           Int      @id @default(autoincrement())
+  name         String
+  type         String
+  duration     Int
+  position     Int?
+  Fecha_Fin    DateTime
+  fecha_inicio DateTime
+}
+
+model usuarios {
+  id           Int         @id @default(autoincrement())
+  username     String
+  email        String
+  password     String
+  tipo_usuario String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime
+  auditoria    auditoria[]
+}
