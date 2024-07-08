@@ -1,15 +1,4 @@
 -- CreateTable
-CREATE TABLE "auditoria" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "id_usuario" INTEGER NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "accion" TEXT NOT NULL,
-    "descripcion" TEXT NOT NULL,
-    "tipo" TEXT,
-    CONSTRAINT "auditoria_id_usuario_fkey" FOREIGN KEY ("id_usuario") REFERENCES "usuarios" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
--- CreateTable
 CREATE TABLE "publicidad" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
@@ -30,6 +19,3 @@ CREATE TABLE "usuarios" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
-
--- CreateIndex
-CREATE INDEX "auditoria_id_usuario_fkey" ON "auditoria"("id_usuario");

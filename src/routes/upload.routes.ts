@@ -1,18 +1,20 @@
 import express, { NextFunction } from "express";
+import multer from "multer";
 
 const router = express.Router();
 
-router.post("/", async (req, res, next: NextFunction) => {
-  try {
-    const data = await req.body.formData();
-    return res.json(data);
-
-  } catch (error) {
-    next(error);
-  } finally {
-    return;
-  }
-
+const storage = multer.diskStorage({
+  destination: "public/uploads/",
+  filename: (_req, file, cb) => {
+    cb(null, file.originalname);
+  },
 });
+const upload = multer({ storage });
+
+router.post(
+  "/",
+  upload.single("file"),
+  async (_req: any, _res: any, _next: NextFunction) => {}
+);
 
 export default router;

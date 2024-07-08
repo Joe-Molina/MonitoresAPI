@@ -1,14 +1,15 @@
 import express, { NextFunction } from "express";
-import { getPublicidades } from "../services/publicidades";
-import { prisma } from "../libs/prisma";
-
+import {
+  createPublicidad,
+  DeletePublicidad,
+  getPublicidades,
+} from "../services/publicidades";
 
 const router = express.Router();
 
 router.get("/", async (_req, res, next: NextFunction) => {
   try {
-
-    const publicidades = await getPublicidades()
+    const publicidades = await getPublicidades();
     res.json(publicidades);
   } catch (error) {
     next(error);
@@ -17,28 +18,21 @@ router.get("/", async (_req, res, next: NextFunction) => {
 
 router.post("/", async (req, res, next: NextFunction) => {
   try {
-
-    const { name, type, duration, fecha_inicio, Fecha_Fin } =
-      await req.body
-
-    console.log(name, type, duration, fecha_inicio, Fecha_Fin)
-
-    const newPublicidad = await prisma.publicidad.create({
-      data: {
-        name: name,
-        type: type,
-        duration: duration,
-        fecha_inicio: fecha_inicio,
-        Fecha_Fin: Fecha_Fin,
-      },
-    });
-
-    res.json(newPublicidad);
-
+    const newPublicidad = await createPublicidad(req.body);
+    res.send(await newPublicidad);
   } catch (error) {
     next(error);
   }
+});
 
+router.delete("/", async (req, res, next: NextFunction) => {
+  try {
+    const { id } = req.body;
+    const publiDeleted = await DeletePublicidad(id);
+    res.json(publiDeleted);
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;

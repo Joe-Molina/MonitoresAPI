@@ -7,18 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model auditoria {
-  id          Int      @id @default(autoincrement())
-  id_usuario  Int
-  created_at  DateTime @default(now())
-  accion      String
-  descripcion String
-  tipo        String?
-  usuarios    usuarios @relation(fields: [id_usuario], references: [id])
-
-  @@index([id_usuario], map: "auditoria_id_usuario_fkey")
-}
-
 model publicidad {
   id           Int      @id @default(autoincrement())
   name         String
@@ -30,12 +18,11 @@ model publicidad {
 }
 
 model usuarios {
-  id           Int         @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   username     String
   email        String
   password     String
   tipo_usuario String
-  createdAt    DateTime    @default(now())
+  createdAt    DateTime @default(now())
   updatedAt    DateTime
-  auditoria    auditoria[]
 }
