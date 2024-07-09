@@ -30,17 +30,15 @@ router.post("/", async (req, res, next: NextFunction) => {
 
 router.put("/", async (req, res) => {
 
-  const { fecha_inicio, Fecha_Fin, position, duration, id } =
+  const { fechaInicio, fechaFin, position, duration } =
     await req.body.edit;
 
-  console.log(req.body)
-
-  console.log({ id, position })
+  console.log(req.body.edit)
 
   const newPositions = await asignarPositions(position, req.body.id);
   const newDuration = await updateDuration(duration, req.body.id);
-  const newEndDate = await updateEndDate(Fecha_Fin, req.body.id);
-  const newStartDate = await updateStartDate(fecha_inicio, req.body.id);
+  const newEndDate = await updateEndDate(fechaFin, req.body.id);
+  const newStartDate = await updateStartDate(fechaInicio, req.body.id);
 
   const data = {
     newDuration,
@@ -48,8 +46,6 @@ router.put("/", async (req, res) => {
     newPositions,
     newStartDate,
   }
-
-  console.log(data)
 
   return res.json(data);
 
